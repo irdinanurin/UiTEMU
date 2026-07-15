@@ -234,10 +234,37 @@
     }
 
     .chart-card h3 {
-        margin: 0 0 16px;
+        margin: 0;
         font-size: 22px;
         color: #0f172a;
         font-weight: 800;
+    }
+
+    .chart-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+    }
+
+    .chart-report-btn {
+        background: #334155;
+        color: #ffffff;
+        text-decoration: none;
+        padding: 9px 14px;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 800;
+        box-shadow: 0 8px 18px rgba(51, 65, 85, 0.16);
+        transition: 0.2s ease;
+    }
+
+    .chart-report-btn:hover {
+        background: #0f172a;
+        color: #ffffff;
+        transform: translateY(-2px);
     }
 
     .chart-box {
@@ -352,6 +379,7 @@
             <?= $this->Html->link('📋 Manage Claims', ['controller' => 'Claims', 'action' => 'index'], ['class' => 'action-purple']) ?>
             <?= $this->Html->link('🎖 Certificates', ['controller' => 'Certificates', 'action' => 'index'], ['class' => 'action-blue']) ?>
             <?= $this->Html->link('👥 Manage Users', ['controller' => 'Users', 'action' => 'index'], ['class' => 'action-dark']) ?>
+            <?= $this->Html->link('📊 View Monthly Report', ['controller' => 'Dashboard', 'action' => 'monthlyReport'], ['class' => 'action-slate']) ?>
         <?php else: ?>
             <?= $this->Html->link('➕ Report Lost Item', ['controller' => 'LostItems', 'action' => 'add'], ['class' => 'action-red']) ?>
             <?= $this->Html->link('➕ Report Found Item', ['controller' => 'FoundItems', 'action' => 'add'], ['class' => 'action-green']) ?>
@@ -359,8 +387,6 @@
             <?= $this->Html->link('📋 My Claims', ['controller' => 'Claims', 'action' => 'index'], ['class' => 'action-purple']) ?>
             <?= $this->Html->link('🎖 My Certificates', ['controller' => 'Certificates', 'action' => 'index'], ['class' => 'action-orange']) ?>
         <?php endif; ?>
-
-        <?= $this->Html->link('📄 Download Monthly Report', ['controller' => 'Dashboard', 'action' => 'downloadReport'], ['class' => 'action-slate']) ?>
     </div>
 </div>
 
@@ -439,35 +465,54 @@
 <div class="chart-grid">
 
     <div class="chart-card">
-        <h3><?= $isAdmin ? 'System Overview' : 'My Activity Overview' ?></h3>
+        <div class="chart-card-header">
+            <h3><?= $isAdmin ? 'System Overview' : 'My Activity Overview' ?></h3>
+        </div>
         <div class="chart-box">
             <canvas id="overviewChart"></canvas>
         </div>
     </div>
 
     <div class="chart-card">
-        <h3>Monthly Report Summary</h3>
+        <div class="chart-card-header">
+            <h3>Monthly Report Summary</h3>
+
+            <?php if ($isAdmin): ?>
+                <?= $this->Html->link(
+                    'Open Report',
+                    ['controller' => 'Dashboard', 'action' => 'monthlyReport'],
+                    ['class' => 'chart-report-btn']
+                ) ?>
+            <?php endif; ?>
+        </div>
+
         <div class="chart-box">
             <canvas id="monthlyChart"></canvas>
         </div>
     </div>
 
     <div class="chart-card">
-        <h3>Claim Status</h3>
+        <div class="chart-card-header">
+            <h3>Claim Status</h3>
+        </div>
         <div class="chart-box">
             <canvas id="claimStatusChart"></canvas>
         </div>
     </div>
 
     <div class="chart-card">
-        <h3>Found Item Categories</h3>
+        <div class="chart-card-header">
+            <h3>Found Item Categories</h3>
+        </div>
         <div class="chart-box">
             <canvas id="categoryChart"></canvas>
         </div>
     </div>
 
     <div class="chart-card">
-        <h3>Found Item Status</h3>
+        <div class="chart-card-header">
+            <h3>Found Item Status</h3>
+        </div>
         <div class="chart-box">
             <canvas id="foundStatusChart"></canvas>
         </div>

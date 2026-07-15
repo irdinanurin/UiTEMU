@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use CakePdf\Pdf\CakePdf;
+use Cake\I18n\FrozenTime;
 
 class DashboardController extends AppController
 {
@@ -201,9 +202,6 @@ class DashboardController extends AppController
             ];
         }
 
-        /**
-         * Leaderboard: Top users by found item reports
-         */
         $leaderboardQuery = $usersTable->find();
 
         $topFinders = $leaderboardQuery
@@ -220,9 +218,6 @@ class DashboardController extends AppController
             ->enableAutoFields(false)
             ->all();
 
-        /**
-         * Found item categories chart
-         */
         $categoryQuery = $foundItemsTable->find();
 
         if (!$isAdmin) {
@@ -250,9 +245,6 @@ class DashboardController extends AppController
             $categoryCounts = [0];
         }
 
-        /**
-         * Claim status chart
-         */
         $claimStatusQuery = $claimsTable->find();
 
         if (!$isAdmin) {
@@ -280,9 +272,6 @@ class DashboardController extends AppController
             $claimStatusCounts = [0];
         }
 
-        /**
-         * Found item status chart
-         */
         $foundStatusQuery = $foundItemsTable->find();
 
         if (!$isAdmin) {
@@ -405,6 +394,135 @@ class DashboardController extends AppController
         ));
     }
 
+    public function monthlyReport()
+    {
+        $role = $this->getCurrentUserRole();
+
+        if ($role !== 'admin') {
+            $this->Flash->error('Only admin can view monthly reports.');
+
+            return $this->redirect(['action' => 'index']);
+        }
+
+        $selectedYear = (int)($this->request->getQuery('year') ?: date('Y'));
+        $selectedMonth = (int)($this->request->getQuery('month') ?: date('m'));
+
+        if ($selectedMonth < 1 || $selectedMonth > 12) {
+            $selectedMonth = (int)date('m');
+        }
+
+        $start = FrozenTime::parse(sprintf('%04d-%02d-01 00:00:00', $selectedYear, $selectedMonth));
+        $end = $start->addMonth();
+
+        $lostItemsTable = $this->fetchTable('LostItems');
+        $foundItemsTable = $this->fetchTable('FoundItems');
+        $claimsTable = $this->fetchTable('Claims');
+        $certificatesTable = $this->fetchTable('Certificates');
+
+        $selectedLostItems = $lostItemsTable->find()
+            ->contain(['Users'])
+            ->where([
+                'LostItems.created_at >=' => $start->format('Y-m-d H:i:s'),
+                'LostItems.created_at <' => $end->format('Y-m-d H:i:s')
+            ])
+            ->order(['LostItems.created_at' => 'DESC'])
+            ->all();
+
+        $selectedFoundItems = $foundItemsTable->find()
+            ->contain(['Users'])
+            ->where([
+                'FoundItems.created_at >=' => $start->format('Y-m-d H:i:s'),
+                'FoundItems.created_at <' => $end->format('Y-m-d H:i:s')
+            ])
+            ->order(['FoundItems.created_at' => 'DESC'])
+            ->all();
+
+        $selectedClaims = $claimsTable->find()
+            ->contain(['Users', 'FoundItems', 'LostItems'])
+            ->where([
+                'Claims.created_at >=' => $start->format('Y-m-d H:i:s'),
+                'Claims.created_at <' => $end->format('Y-m-d H:i:s')
+            ])
+            ->order(['Claims.created_at' => 'DESC'])
+            ->all();
+
+        $selectedCertificates = $certificatesTable->find()
+            ->contain(['Users', 'FoundItems'])
+            ->where([
+                'Certificates.created_at >=' => $start->format('Y-m-d H:i:s'),
+                'Certificates.created_at <' => $end->format('Y-m-d H:i:s')
+            ])
+            ->order(['Certificates.created_at' => 'DESC'])
+            ->all();
+
+        $lostCount = $selectedLostItems->count();
+        $foundCount = $selectedFoundItems->count();
+        $claimsCount = $selectedClaims->count();
+        $certificatesCount = $selectedCertificates->count();
+
+        $chartLabels = [];
+        $monthlyLostCounts = [];
+        $monthlyFoundCounts = [];
+        $monthlyClaimsCounts = [];
+        $monthlyCertificateCounts = [];
+
+        for ($m = 1; $m <= 12; $m++) {
+            $monthStart = FrozenTime::parse(sprintf('%04d-%02d-01 00:00:00', $selectedYear, $m));
+            $monthEnd = $monthStart->addMonth();
+
+            $chartLabels[] = $monthStart->format('M');
+
+            $monthlyLostCounts[] = $lostItemsTable->find()
+                ->where([
+                    'LostItems.created_at >=' => $monthStart->format('Y-m-d H:i:s'),
+                    'LostItems.created_at <' => $monthEnd->format('Y-m-d H:i:s')
+                ])
+                ->count();
+
+            $monthlyFoundCounts[] = $foundItemsTable->find()
+                ->where([
+                    'FoundItems.created_at >=' => $monthStart->format('Y-m-d H:i:s'),
+                    'FoundItems.created_at <' => $monthEnd->format('Y-m-d H:i:s')
+                ])
+                ->count();
+
+            $monthlyClaimsCounts[] = $claimsTable->find()
+                ->where([
+                    'Claims.created_at >=' => $monthStart->format('Y-m-d H:i:s'),
+                    'Claims.created_at <' => $monthEnd->format('Y-m-d H:i:s')
+                ])
+                ->count();
+
+            $monthlyCertificateCounts[] = $certificatesTable->find()
+                ->where([
+                    'Certificates.created_at >=' => $monthStart->format('Y-m-d H:i:s'),
+                    'Certificates.created_at <' => $monthEnd->format('Y-m-d H:i:s')
+                ])
+                ->count();
+        }
+
+        $monthName = $start->format('F');
+
+        $this->set(compact(
+            'selectedYear',
+            'selectedMonth',
+            'monthName',
+            'selectedLostItems',
+            'selectedFoundItems',
+            'selectedClaims',
+            'selectedCertificates',
+            'lostCount',
+            'foundCount',
+            'claimsCount',
+            'certificatesCount',
+            'chartLabels',
+            'monthlyLostCounts',
+            'monthlyFoundCounts',
+            'monthlyClaimsCounts',
+            'monthlyCertificateCounts'
+        ));
+    }
+
     public function downloadReport()
     {
         $userId = $this->getCurrentUserId();
@@ -434,15 +552,19 @@ class DashboardController extends AppController
             ];
         } else {
             $totalUsers = $usersTable->find()->count();
+
             $totalLostItems = $lostItemsTable->find()
                 ->where(['LostItems.user_id' => $userId])
                 ->count();
+
             $totalFoundItems = $foundItemsTable->find()
                 ->where(['FoundItems.user_id' => $userId])
                 ->count();
+
             $totalClaims = $claimsTable->find()
                 ->where(['Claims.user_id' => $userId])
                 ->count();
+
             $totalCertificates = $certificatesTable->find()
                 ->where(['Certificates.user_id' => $userId])
                 ->count();
@@ -457,9 +579,11 @@ class DashboardController extends AppController
         }
 
         $categoryQuery = $foundItemsTable->find();
+
         if (!$isAdmin) {
             $categoryQuery->where(['FoundItems.user_id' => $userId]);
         }
+
         $categoryQuery
             ->select([
                 'category' => 'FoundItems.category',
@@ -470,19 +594,23 @@ class DashboardController extends AppController
 
         $categoryLabels = [];
         $categoryCounts = [];
+
         foreach ($categoryQuery->all() as $row) {
             $categoryLabels[] = $row->category ?: 'Uncategorized';
             $categoryCounts[] = (int)$row->count;
         }
+
         if (empty($categoryLabels)) {
             $categoryLabels = ['No Data'];
             $categoryCounts = [0];
         }
 
         $claimStatusQuery = $claimsTable->find();
+
         if (!$isAdmin) {
             $claimStatusQuery->where(['Claims.user_id' => $userId]);
         }
+
         $claimStatusQuery
             ->select([
                 'claim_status' => 'Claims.claim_status',
@@ -493,19 +621,23 @@ class DashboardController extends AppController
 
         $claimStatusLabels = [];
         $claimStatusCounts = [];
+
         foreach ($claimStatusQuery->all() as $row) {
             $claimStatusLabels[] = $row->claim_status ?: 'Unknown';
             $claimStatusCounts[] = (int)$row->count;
         }
+
         if (empty($claimStatusLabels)) {
             $claimStatusLabels = ['No Data'];
             $claimStatusCounts = [0];
         }
 
         $foundStatusQuery = $foundItemsTable->find();
+
         if (!$isAdmin) {
             $foundStatusQuery->where(['FoundItems.user_id' => $userId]);
         }
+
         $foundStatusQuery
             ->select([
                 'status' => 'FoundItems.status',
@@ -516,10 +648,12 @@ class DashboardController extends AppController
 
         $foundStatusLabels = [];
         $foundStatusCounts = [];
+
         foreach ($foundStatusQuery->all() as $row) {
             $foundStatusLabels[] = $row->status ?: 'Unknown';
             $foundStatusCounts[] = (int)$row->count;
         }
+
         if (empty($foundStatusLabels)) {
             $foundStatusLabels = ['No Data'];
             $foundStatusCounts = [0];
@@ -527,10 +661,12 @@ class DashboardController extends AppController
 
         $monthlyLostQuery = $lostItemsTable->find();
         $monthlyFoundQuery = $foundItemsTable->find();
+
         if (!$isAdmin) {
             $monthlyLostQuery->where(['LostItems.user_id' => $userId]);
             $monthlyFoundQuery->where(['FoundItems.user_id' => $userId]);
         }
+
         $monthlyLostQuery
             ->select([
                 'month_label' => $monthlyLostQuery->func()->date_format([
@@ -556,16 +692,19 @@ class DashboardController extends AppController
             ->enableAutoFields(false);
 
         $monthlyTotals = [];
+
         foreach ($monthlyLostQuery->all() as $row) {
             $label = $row->month_label;
             $monthlyTotals[$label]['lost'] = (int)$row->count;
             $monthlyTotals[$label]['found'] = $monthlyTotals[$label]['found'] ?? 0;
         }
+
         foreach ($monthlyFoundQuery->all() as $row) {
             $label = $row->month_label;
             $monthlyTotals[$label]['found'] = (int)$row->count;
             $monthlyTotals[$label]['lost'] = $monthlyTotals[$label]['lost'] ?? 0;
         }
+
         if (empty($monthlyTotals)) {
             $monthlyTotals['No Data'] = ['lost' => 0, 'found' => 0];
         }
@@ -573,6 +712,7 @@ class DashboardController extends AppController
         $monthlyLabels = [];
         $monthlyLostCounts = [];
         $monthlyFoundCounts = [];
+
         foreach ($monthlyTotals as $label => $values) {
             $monthlyLabels[] = $label;
             $monthlyLostCounts[] = $values['lost'];
