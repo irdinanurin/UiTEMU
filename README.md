@@ -346,7 +346,13 @@ uitemu/
 ├── composer.json
 └── README.md
 ```
+# 👩‍💻 Author
 
+**Nurin Irdina binti Abdullah**
+
+- 📧 Email: irdinanurin0411@gmail.com
+- 🐙 GitHub: https://github.com/irdinanurin
+- 
 ---
 
 # 👨‍👩‍👧‍👦 Team Members
