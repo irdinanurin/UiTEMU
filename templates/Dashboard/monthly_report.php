@@ -306,7 +306,7 @@
             <div>
                 <h2>Monthly Report</h2>
                 <p>
-                    View UiTEMU lost, found, claim, and certificate activity by selected month.
+                    View UiTEMU lost and found item activity by selected month.
                 </p>
             </div>
 
@@ -350,16 +350,6 @@
                         <span class="info-value"><?= h($foundCount) ?></span>
                     </div>
 
-                    <div class="info-box summary-claims">
-                        <span class="info-label">Claims</span>
-                        <span class="info-value"><?= h($claimsCount) ?></span>
-                    </div>
-
-                    <div class="info-box summary-cert">
-                        <span class="info-label">Certificates</span>
-                        <span class="info-value"><?= h($certificatesCount) ?></span>
-                    </div>
-
                 </div>
             </div>
 
@@ -370,9 +360,7 @@
 
             <?php if (
                 $selectedLostItems->count() > 0 ||
-                $selectedFoundItems->count() > 0 ||
-                $selectedClaims->count() > 0 ||
-                $selectedCertificates->count() > 0
+                $selectedFoundItems->count() > 0
             ): ?>
 
                 <table class="report-table">
@@ -410,27 +398,6 @@
                             </tr>
                         <?php endforeach; ?>
 
-                        <?php foreach ($selectedClaims as $claim): ?>
-                            <tr>
-                                <td><span class="type-badge type-claim">Claim</span></td>
-                                <td>Claim #<?= h($claim->id) ?></td>
-                                <td><?= h($claim->user->name ?? 'N/A') ?></td>
-                                <td><?= h($claim->found_item->item_name ?? 'No Found Item') ?></td>
-                                <td><?= h($claim->created_at) ?></td>
-                                <td><?= h($claim->claim_status ?? '-') ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-
-                        <?php foreach ($selectedCertificates as $certificate): ?>
-                            <tr>
-                                <td><span class="type-badge type-cert">Certificate</span></td>
-                                <td><?= h($certificate->certificate_no ?? 'Certificate #' . $certificate->id) ?></td>
-                                <td><?= h($certificate->user->name ?? 'N/A') ?></td>
-                                <td><?= h($certificate->found_item->item_name ?? '-') ?></td>
-                                <td><?= h($certificate->created_at) ?></td>
-                                <td><?= h($certificate->status ?? 'Issued') ?></td>
-                            </tr>
-                        <?php endforeach; ?>
                     </tbody>
                 </table>
 
@@ -531,18 +498,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     label: 'Found Reports',
                     data: <?= json_encode($monthlyFoundCounts) ?>,
                     backgroundColor: '#16a34a',
-                    borderRadius: 10
-                },
-                {
-                    label: 'Claims',
-                    data: <?= json_encode($monthlyClaimsCounts) ?>,
-                    backgroundColor: '#7c3aed',
-                    borderRadius: 10
-                },
-                {
-                    label: 'Certificates',
-                    data: <?= json_encode($monthlyCertificateCounts) ?>,
-                    backgroundColor: '#334155',
                     borderRadius: 10
                 }
             ]

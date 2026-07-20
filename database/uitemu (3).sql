@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 15, 2026 at 12:45 PM
+-- Generation Time: Jul 17, 2026 at 10:41 AM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.30
 
@@ -45,7 +45,8 @@ CREATE TABLE `certificates` (
 --
 
 INSERT INTO `certificates` (`id`, `user_id`, `found_item_id`, `certificate_no`, `title`, `description`, `issue_date`, `status`, `created_at`, `updated_at`) VALUES
-(1, 5, 3, 'CERT-20260619-001', 'Certificate of Appreciation', NULL, '2026-06-13', 'Issued', '2026-06-13 10:17:49', '2026-06-19 11:47:38');
+(1, 5, 3, 'CERT-20260619-001', 'Certificate of Appreciation', NULL, '2026-06-13', 'Issued', '2026-06-13 10:17:49', '2026-06-19 11:47:38'),
+(2, 5, NULL, 'CERT-20260619-002', 'Certificate of Appreciation', NULL, '2026-07-17', 'Issued', '2026-07-16 20:06:58', NULL);
 
 -- --------------------------------------------------------
 
@@ -82,7 +83,8 @@ CREATE TABLE `claims` (
 
 INSERT INTO `claims` (`id`, `user_id`, `found_item_id`, `lost_item_id`, `claim_reason`, `lost_location`, `lost_date`, `proof_image`, `claim_status`, `admin_notes`, `created_at`, `updated_at`, `handover_status`, `meeting_location`, `meeting_datetime`, `pickup_code`, `finder_confirmed`, `claimant_confirmed`, `handover_notes`, `handed_over_at`) VALUES
 (1, 5, 3, NULL, NULL, NULL, NULL, NULL, 'Approved', NULL, '2026-06-13 10:17:24', '2026-06-14 15:21:42', 'Not Arranged', NULL, NULL, NULL, 0, 0, NULL, NULL),
-(5, 5, 7, 3, 'it look like mine', 'cafe', '2026-06-19', NULL, '', '', '2026-06-19 13:38:18', '2026-06-22 18:02:32', 'Disputed', NULL, NULL, NULL, 0, 0, NULL, NULL);
+(5, 5, 7, 3, 'it look like mine', 'cafe', '2026-06-19', NULL, '', '', '2026-06-19 13:38:18', '2026-06-22 18:02:32', 'Disputed', NULL, NULL, NULL, 0, 0, NULL, NULL),
+(6, 7, 8, 4, 'this is exactly like mine and its where i lost it', 'ptar', '2026-07-17', NULL, 'Approved', '', '2026-07-16 19:03:56', '2026-07-16 19:55:31', 'Arranged', 'cafe', '2026-07-18 13:01:00', 'UITEMU-779819', 0, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -112,7 +114,8 @@ CREATE TABLE `found_items` (
 INSERT INTO `found_items` (`id`, `user_id`, `item_name`, `image`, `category`, `description`, `private_details`, `location`, `date_found`, `status`, `created_at`, `updated_at`) VALUES
 (3, 5, 'laptop', '1781440085_laptop.jpg', 'electornics', 'silver hp laptop', NULL, 'ptar', '2026-06-14', 'Claimed', '2026-06-14 12:28:05', '2026-06-14 15:28:08'),
 (5, 5, 'wallet', '1781543981_wallet.jpg', 'personal belonging', 'cream', NULL, 'lab 7 ', '2026-06-16', 'Available', '2026-06-15 17:19:41', NULL),
-(7, 6, 'iphone 15', '1781870648_iphone.jpg', 'electronics', 'pink', '', 'cafe', '2026-06-19', 'Claimed', '2026-06-19 12:04:08', '2026-06-19 14:40:02');
+(7, 6, 'iphone 15', '1781870648_iphone.jpg', 'electronics', 'pink', '', 'cafe', '2026-06-19', 'Claimed', '2026-06-19 12:04:08', '2026-06-19 14:40:02'),
+(8, 5, 'apple headphones', '1784227945_airpdods.webp', 'electronics', 'rosegold headphones apple', 'theres a apple sticker ', 'ptar', '2026-07-17', 'Reserved', '2026-07-16 18:52:26', '2026-07-16 19:53:14');
 
 -- --------------------------------------------------------
 
@@ -142,7 +145,8 @@ CREATE TABLE `lost_items` (
 INSERT INTO `lost_items` (`id`, `user_id`, `item_name`, `image`, `category`, `description`, `private_details`, `location`, `date_lost`, `status`, `created_at`, `updated_at`) VALUES
 (1, 5, 'montigo bottle', '1781441806_bottle.jpg', 'personal belonging', 'cream', NULL, 'cafe', NULL, 'Pending', '2026-06-14 12:43:08', NULL),
 (2, 5, 'wallet', '1781543784_wallet.jpg', 'personal belonging', 'cream colour', NULL, 'lab 7 ', NULL, 'Pending', '2026-06-15 17:13:47', NULL),
-(3, 5, 'pink iphone 15', '1781875833_iphone.jpg', 'electronics', 'pink', 'the lock screem is a picture of hello kitty ', 'cafe', '2026-06-19', 'Found', '2026-06-19 13:30:33', '2026-06-19 14:40:02');
+(3, 5, 'pink iphone 15', '1781875833_iphone.jpg', 'electronics', 'pink', 'the lock screem is a picture of hello kitty ', 'cafe', '2026-06-19', 'Found', '2026-06-19 13:30:33', '2026-06-19 14:40:02'),
+(4, 7, 'apple airpods', '1784226639_airpdods.webp', 'electronics', 'rosegold apple airpods', 'an apple sticker one the right side', 'ptar', '2026-07-17', 'Matched', '2026-07-16 18:30:39', '2026-07-16 19:53:14');
 
 -- --------------------------------------------------------
 
@@ -167,7 +171,8 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `role`, `created_at`, `updated_at`) VALUES
 (4, 'admin', 'admin@uitemu.com', '$2y$10$ddIGlmSz61LQ9vJkDz4COeOQnZniINvPbUeTE8KcjWWtlL.vdy3Bm', 'admin', '2026-06-14 11:17:24', NULL),
 (5, 'Nurin Irdina', 'student@uitemu.com', '$2y$10$/uw25Zsp1mmMuJOK608EDOFTnglZqQE6QuCcQpBSyHgHIZ84JMjtm', 'user', '2026-06-14 11:22:46', NULL),
-(6, 'ilham hakim', 'ilhamkemm@gmail.com', '$2y$10$gSOal3KFAtqip1jhBb3BgOmaAaSJn.Hr39vGr0akY8aMcWa.k15fi', 'user', '2026-06-18 18:46:33', NULL);
+(6, 'ilham hakim', 'ilhamkemm@gmail.com', '$2y$10$gSOal3KFAtqip1jhBb3BgOmaAaSJn.Hr39vGr0akY8aMcWa.k15fi', 'user', '2026-06-18 18:46:33', NULL),
+(7, 'Nur Zafirah', 'zafirah@uitemu.com', '$2y$10$VKQ/EZlRFjEEe8qIwWAyke0VpAATFz4W7emxYXFytmQccWPwaB2Re', 'user', '2026-07-16 18:20:47', NULL);
 
 --
 -- Indexes for dumped tables
@@ -218,31 +223,31 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `certificates`
 --
 ALTER TABLE `certificates`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `claims`
 --
 ALTER TABLE `claims`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `found_items`
 --
 ALTER TABLE `found_items`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `lost_items`
 --
 ALTER TABLE `lost_items`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Constraints for dumped tables

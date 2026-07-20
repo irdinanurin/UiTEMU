@@ -33,62 +33,71 @@ $isAdmin = $role === 'admin';
     .page-header {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        margin-bottom: 25px;
-        gap: 18px;
+        align-items: flex-start;
+        margin-bottom: 30px;
+        gap: 20px;
         flex-wrap: wrap;
     }
 
     .page-header h2 {
-        font-size: 38px;
-        font-weight: 800;
+        font-size: 42px;
+        font-weight: 900;
         color: #111827;
         margin: 0;
+        letter-spacing: -0.8px;
     }
 
     .page-header p {
-        margin: 6px 0 0;
+        margin: 8px 0 0;
         color: #64748b;
-        font-size: 15px;
+        font-size: 16px;
+        font-weight: 500;
     }
 
     .add-btn {
-        background: #7c3aed;
+        background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
         color: white;
-        padding: 13px 20px;
-        border-radius: 12px;
+        padding: 14px 20px;
+        border-radius: 14px;
         text-decoration: none;
         font-weight: 800;
-        box-shadow: 0 8px 22px rgba(124, 58, 237, 0.25);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 50px;
+        box-shadow: 0 10px 24px rgba(124, 58, 237, 0.22);
+        transition: 0.2s ease;
+        white-space: nowrap;
     }
 
     .add-btn:hover {
-        background: #6d28d9;
+        transform: translateY(-3px);
         color: white;
+        box-shadow: 0 14px 28px rgba(124, 58, 237, 0.28);
     }
 
     .claims-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(340px, 380px));
-        gap: 25px;
-        justify-content: start;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 28px;
         align-items: start;
     }
 
     .claim-card {
         background: #ffffff;
-        border-radius: 22px;
+        border-radius: 24px;
         overflow: hidden;
         box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-        transition: 0.25s;
+        transition: 0.25s ease;
         position: relative;
         width: 100%;
-        max-width: 380px;
+        max-width: none;
+        border: 1px solid rgba(226, 232, 240, 0.7);
     }
 
     .claim-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 14px 35px rgba(15, 23, 42, 0.14);
+        transform: translateY(-6px);
+        box-shadow: 0 18px 38px rgba(15, 23, 42, 0.14);
     }
 
     .claim-number {
@@ -110,13 +119,13 @@ $isAdmin = $role === 'admin';
 
     .claim-image {
         width: 100%;
-        height: 195px;
-        background: #f8fafc;
+        height: 210px;
+        background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
         display: flex;
         justify-content: center;
         align-items: center;
         overflow: hidden;
-        padding: 12px;
+        padding: 16px;
     }
 
     .claim-image img {
@@ -132,25 +141,26 @@ $isAdmin = $role === 'admin';
     }
 
     .claim-info {
-        padding: 20px;
+        padding: 22px;
     }
 
     .claim-info h3 {
-        font-size: 24px;
-        font-weight: 800;
+        font-size: 25px;
+        font-weight: 900;
         color: #111827;
-        margin: 0 0 14px;
+        margin: 0 0 18px;
         text-transform: capitalize;
+        line-height: 1.2;
     }
 
     .info-row {
         display: flex;
         justify-content: space-between;
-        gap: 12px;
-        margin-bottom: 9px;
+        gap: 14px;
+        margin-bottom: 11px;
         font-size: 14px;
         border-bottom: 1px solid #f1f5f9;
-        padding-bottom: 8px;
+        padding-bottom: 9px;
     }
 
     .info-label {
@@ -161,7 +171,9 @@ $isAdmin = $role === 'admin';
     .info-value {
         color: #111827;
         text-align: right;
-        font-weight: 700;
+        font-weight: 800;
+        max-width: 60%;
+        word-break: break-word;
     }
 
     .status-badge {
@@ -219,8 +231,8 @@ $isAdmin = $role === 'admin';
     }
 
     .claim-box {
-        margin-top: 15px;
-        padding: 15px;
+        margin-top: 16px;
+        padding: 16px;
         background: #f8fafc;
         border-radius: 16px;
         border: 1px solid #e5e7eb;
@@ -262,16 +274,16 @@ $isAdmin = $role === 'admin';
         display: flex;
         justify-content: flex-end;
         flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 13px;
+        gap: 10px;
+        margin-top: 20px;
     }
 
     .card-actions a,
     .card-actions form button {
-        padding: 9px 12px;
-        border-radius: 9px;
+        padding: 11px 17px;
+        border-radius: 11px;
         font-size: 13px;
-        font-weight: 900;
+        font-weight: 800;
         text-decoration: none;
         border: none;
         cursor: pointer;
@@ -279,8 +291,9 @@ $isAdmin = $role === 'admin';
     }
 
     .view-btn {
-        background: #2563eb;
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
         color: white;
+        box-shadow: 0 8px 18px rgba(37, 99, 235, 0.2);
     }
 
     .edit-btn {
@@ -344,10 +357,6 @@ $isAdmin = $role === 'admin';
             grid-template-columns: 1fr;
         }
 
-        .claim-card {
-            max-width: 100%;
-        }
-
         .page-header h2 {
             font-size: 30px;
         }
@@ -362,11 +371,6 @@ $isAdmin = $role === 'admin';
         </p>
     </div>
 
-    <?= $this->Html->link(
-        '+ New Claim',
-        ['controller' => 'FoundItems', 'action' => 'index'],
-        ['class' => 'add-btn']
-    ) ?>
 </div>
 
 <?php ?>

@@ -299,8 +299,8 @@
                 ]) ?>
 
                 <?= $this->Html->link(
-                    'Back to Lost Items',
-                    ['action' => 'index'],
+                    'Back to Items',
+                    ['controller' => 'Items', 'action' => 'index'],
                     ['class' => 'back-btn']
                 ) ?>
             </div>

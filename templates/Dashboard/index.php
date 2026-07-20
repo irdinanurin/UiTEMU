@@ -5,6 +5,12 @@
 ?>
 
 <style>
+    .dashboard-compact {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
     .dash-header {
         margin-bottom: 28px;
     }
@@ -244,20 +250,22 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 14px;
+        gap: 12px;
         flex-wrap: wrap;
         margin-bottom: 16px;
     }
 
     .chart-report-btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 14px;
+        border-radius: 12px;
         background: #334155;
         color: #ffffff;
         text-decoration: none;
-        padding: 9px 14px;
-        border-radius: 12px;
         font-size: 13px;
         font-weight: 800;
-        box-shadow: 0 8px 18px rgba(51, 65, 85, 0.16);
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.10);
         transition: 0.2s ease;
     }
 
@@ -299,6 +307,8 @@
         }
     }
 </style>
+
+<div class="dashboard-compact">
 
 <div class="dash-header">
     <h1 class="dash-title">UiTEMU Dashboard</h1>
@@ -473,23 +483,23 @@
         </div>
     </div>
 
-    <div class="chart-card">
-        <div class="chart-card-header">
-            <h3>Monthly Report Summary</h3>
+    <?php if ($isAdmin): ?>
+        <div class="chart-card">
+            <div class="chart-card-header">
+                <h3>Monthly Report Summary</h3>
 
-            <?php if ($isAdmin): ?>
                 <?= $this->Html->link(
                     'Open Report',
                     ['controller' => 'Dashboard', 'action' => 'monthlyReport'],
                     ['class' => 'chart-report-btn']
                 ) ?>
-            <?php endif; ?>
-        </div>
+            </div>
 
-        <div class="chart-box">
-            <canvas id="monthlyChart"></canvas>
+            <div class="chart-box">
+                <canvas id="monthlyChart"></canvas>
+            </div>
         </div>
-    </div>
+    <?php endif; ?>
 
     <div class="chart-card">
         <div class="chart-card-header">
@@ -649,9 +659,6 @@ new Chart(document.getElementById('monthlyChart'), {
             legend: { position: 'top' }
         },
         scales: {
-            x: {
-                stacked: false
-            },
             y: {
                 beginAtZero: true,
                 ticks: {
@@ -720,3 +727,5 @@ new Chart(document.getElementById('foundStatusChart'), {
     }
 });
 </script>
+
+</div>

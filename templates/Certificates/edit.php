@@ -9,51 +9,47 @@
 
 <style>
     .cert-edit-page {
-        padding: 10px 0 35px;
+        max-width: 1200px;
+        margin: 0 auto;
     }
 
     .cert-edit-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 20px;
-        flex-wrap: wrap;
-        margin-bottom: 26px;
+        margin-bottom: 24px;
     }
 
     .cert-edit-header h1 {
         margin: 0 0 8px;
-        font-size: 52px;
-        font-weight: 800;
-        color: #0f172a;
-        letter-spacing: -1px;
+        font-size: 32px;
+        font-weight: 700;
+        color: #111827;
     }
 
     .cert-edit-header p {
         margin: 0;
-        font-size: 20px;
         color: #64748b;
+        font-size: 15px;
     }
 
     .cert-edit-actions {
         display: flex;
         flex-wrap: wrap;
         gap: 12px;
+        margin-top: 16px;
     }
 
     .cert-btn {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 13px 20px;
-        border-radius: 14px;
+        padding: 10px 14px;
+        border-radius: 12px;
         text-decoration: none;
-        font-weight: 800;
-        font-size: 16px;
+        font-weight: 700;
+        font-size: 14px;
         border: none;
         cursor: pointer;
         transition: 0.2s ease;
-        box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.10);
     }
 
     .cert-btn:hover {
@@ -72,7 +68,7 @@
     }
 
     .cert-btn-green {
-        background: #10b981;
+        background: #0f766e;
         color: #fff;
     }
 
@@ -83,202 +79,165 @@
 
     .cert-edit-layout {
         display: grid;
-        grid-template-columns: 0.9fr 1.5fr;
+        grid-template-columns: 350px 1fr;
         gap: 24px;
         align-items: start;
     }
 
-    .cert-preview-card,
-    .cert-form-card,
-    .cert-help-card {
-        background: #fff;
-        border-radius: 24px;
-        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+    .info-card,
+    .form-card {
+        background: #ffffff;
+        border-radius: 18px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+        overflow: hidden;
+    }
+
+    .info-card {
         padding: 28px;
+        background: linear-gradient(180deg, #eff6ff, #ffffff);
     }
 
-    .cert-preview-box {
-        border: 7px solid #1e3a5f;
-        padding: 34px 24px;
-        text-align: center;
-        background: linear-gradient(180deg, #ffffff, #f8fbff);
-        min-height: 300px;
+    .info-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 18px;
+        background: #2563eb;
+        color: white;
         display: flex;
-        flex-direction: column;
+        align-items: center;
         justify-content: center;
-    }
-
-    .cert-preview-code {
-        text-align: right;
-        font-size: 13px;
-        font-weight: 800;
-        color: #334155;
+        font-size: 32px;
         margin-bottom: 20px;
     }
 
-    .cert-preview-title {
+    .info-card h3 {
         font-size: 24px;
-        font-weight: 900;
-        letter-spacing: 4px;
-        color: #1e3a5f;
-        margin-bottom: 24px;
-    }
-
-    .cert-preview-small {
-        color: #64748b;
-        font-size: 15px;
+        font-weight: 700;
+        color: #111827;
         margin-bottom: 12px;
     }
 
-    .cert-preview-name {
-        font-size: 30px;
-        font-weight: 900;
-        color: #0f172a;
-        margin-bottom: 20px;
-    }
-
-    .cert-preview-text {
-        color: #334155;
+    .info-card p {
+        color: #4b5563;
         font-size: 15px;
         line-height: 1.6;
+        margin-bottom: 16px;
+    }
+
+    .info-list {
+        margin: 0;
+        padding-left: 18px;
+        color: #374151;
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .form-card {
+        padding: 28px;
+    }
+
+    .form-card h3 {
+        font-size: 24px;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 8px;
+    }
+
+    .form-note {
+        color: #64748b;
+        margin-bottom: 24px;
+        font-size: 14px;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+    }
+
+    .form-group {
         margin-bottom: 18px;
     }
 
-    .cert-preview-date {
-        font-size: 15px;
-        font-weight: 800;
-        color: #0f172a;
-    }
-
-    .cert-help-card {
-        margin-top: 20px;
-        background: #eff6ff;
-        border: 1px solid #bfdbfe;
-    }
-
-    .cert-help-card strong {
-        display: block;
-        color: #1d4ed8;
-        font-size: 18px;
-        margin-bottom: 8px;
-    }
-
-    .cert-help-card p {
-        margin: 0;
-        color: #334155;
-        font-size: 15px;
-        line-height: 1.6;
-    }
-
-    .cert-form-card h2 {
-        margin: 0 0 8px;
-        font-size: 34px;
-        font-weight: 800;
-        color: #0f172a;
-    }
-
-    .cert-form-card .subtitle {
-        margin: 0 0 24px;
-        color: #64748b;
-        font-size: 17px;
-    }
-
-    .cert-form-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 18px 20px;
-    }
-
-    .cert-form-grid .full {
+    .form-group.full {
         grid-column: 1 / -1;
     }
 
-    .cert-edit-page label {
-        display: block;
+    .form-group label {
+        font-weight: 700;
+        color: #374151;
         margin-bottom: 8px;
-        color: #334155;
-        font-size: 15px;
-        font-weight: 800;
+        display: block;
     }
 
-    .cert-edit-page input,
-    .cert-edit-page select,
-    .cert-edit-page textarea {
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
         width: 100%;
-        border: 1px solid #cbd5e1;
-        border-radius: 14px;
-        padding: 14px 16px;
-        font-size: 16px;
-        color: #0f172a;
-        background: #fff;
+        border: 1px solid #d1d5db;
+        border-radius: 12px;
+        padding: 12px 14px;
+        font-size: 15px;
+        background: #f9fafb;
         box-sizing: border-box;
-        transition: 0.2s ease;
     }
 
-    .cert-edit-page textarea {
-        min-height: 120px;
+    .form-group textarea {
+        min-height: 110px;
         resize: vertical;
     }
 
-    .cert-edit-page input:focus,
-    .cert-edit-page select:focus,
-    .cert-edit-page textarea:focus {
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
         outline: none;
         border-color: #2563eb;
-        box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+        background: #ffffff;
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
     }
 
-    .cert-submit-row {
+    .button-row {
         display: flex;
-        flex-wrap: wrap;
         gap: 12px;
-        margin-top: 26px;
+        margin-top: 10px;
+        flex-wrap: wrap;
     }
 
-    .cert-submit {
+    .submit-btn {
         background: #2563eb;
-        color: #fff;
+        color: white;
         border: none;
-        border-radius: 14px;
-        padding: 14px 24px;
-        font-size: 17px;
-        font-weight: 900;
+        padding: 13px 22px;
+        border-radius: 12px;
+        font-weight: 700;
         cursor: pointer;
-        box-shadow: 0 10px 24px rgba(37, 99, 235, 0.22);
     }
 
-    .cert-cancel {
-        background: #e2e8f0;
-        color: #0f172a;
+    .submit-btn:hover {
+        background: #1d4ed8;
+    }
+
+    .back-btn {
+        background: #e5e7eb;
+        color: #374151;
+        padding: 13px 22px;
+        border-radius: 12px;
         text-decoration: none;
-        border-radius: 14px;
-        padding: 14px 22px;
-        font-size: 17px;
-        font-weight: 900;
+        font-weight: 700;
     }
 
-    @media (max-width: 1100px) {
+    .back-btn:hover {
+        background: #d1d5db;
+        color: #111827;
+    }
+
+    @media (max-width: 900px) {
         .cert-edit-layout {
             grid-template-columns: 1fr;
         }
-    }
 
-    @media (max-width: 768px) {
-        .cert-edit-header h1 {
-            font-size: 38px;
-        }
-
-        .cert-form-grid {
+        .form-grid {
             grid-template-columns: 1fr;
-        }
-
-        .cert-edit-actions {
-            width: 100%;
-            flex-direction: column;
-        }
-
-        .cert-btn {
-            width: 100%;
         }
     }
 </style>
@@ -310,54 +269,31 @@
     </div>
 
     <div class="cert-edit-layout">
-
-        <div>
-            <div class="cert-preview-card">
-                <div class="cert-preview-box">
-                    <div class="cert-preview-code">
-                        <?= h($certificate->certificate_no) ?>
-                    </div>
-
-                    <div class="cert-preview-title">
-                        CERTIFICATE
-                    </div>
-
-                    <div class="cert-preview-small">
-                        Certificate issued to
-                    </div>
-
-                    <div class="cert-preview-name">
-                        <?= $certificate->has('user') ? h($certificate->user->name) : 'Selected User' ?>
-                    </div>
-
-                    <div class="cert-preview-text">
-                        This certificate is given as appreciation for contributing to the UiTEMU Lost & Found System.
-                    </div>
-
-                    <div class="cert-preview-date">
-                        Issue Date: <?= h($certificate->issue_date) ?>
-                    </div>
-                </div>
+        <div class="info-card">
+            <div class="info-icon">
+                <i class="fa fa-certificate"></i>
             </div>
 
-            <div class="cert-help-card">
-                <strong>Certificate Tip</strong>
-                <p>
-                    Use this page to update the certificate recipient, certificate number, issue date,
-                    and certificate details before downloading the PDF.
-                </p>
-            </div>
+            <h3>Certificate Editor</h3>
+            <p>
+                Update the recipient, certificate reference, and supporting text before downloading the PDF.
+            </p>
+
+            <ul class="info-list">
+                <li>Choose the correct recipient user.</li>
+                <li>Keep the certificate number consistent and unique.</li>
+                <li>Set the issue date and title for the final document.</li>
+            </ul>
         </div>
 
-        <div class="cert-form-card">
-            <h2>Certificate Details</h2>
-            <p class="subtitle">Edit the certificate information below.</p>
+        <div class="form-card">
+            <h3>Certificate Details</h3>
+            <p class="form-note">Edit the certificate information below.</p>
 
             <?= $this->Form->create($certificate) ?>
 
-            <div class="cert-form-grid">
-
-                <div>
+            <div class="form-grid">
+                <div class="form-group">
                     <?= $this->Form->control('user_id', [
                         'label' => 'Recipient User',
                         'options' => $users ?? [],
@@ -367,7 +303,7 @@
                 </div>
 
                 <?php if (isset($foundItems)): ?>
-                    <div>
+                    <div class="form-group">
                         <?= $this->Form->control('found_item_id', [
                             'label' => 'Found Item',
                             'options' => $foundItems,
@@ -377,7 +313,7 @@
                     </div>
                 <?php endif; ?>
 
-                <div>
+                <div class="form-group">
                     <?= $this->Form->control('certificate_no', [
                         'label' => 'Certificate Number',
                         'placeholder' => 'Example: CERT-20260619-001',
@@ -385,7 +321,7 @@
                     ]) ?>
                 </div>
 
-                <div>
+                <div class="form-group">
                     <?= $this->Form->control('issue_date', [
                         'label' => 'Issue Date',
                         'type' => 'date',
@@ -393,7 +329,7 @@
                     ]) ?>
                 </div>
 
-                <div class="full">
+                <div class="form-group full">
                     <?= $this->Form->control('title', [
                         'label' => 'Certificate Title',
                         'placeholder' => 'Certificate of Appreciation',
@@ -401,7 +337,7 @@
                     ]) ?>
                 </div>
 
-                <div class="full">
+                <div class="form-group full">
                     <?= $this->Form->control('description', [
                         'label' => 'Description',
                         'type' => 'textarea',
@@ -410,7 +346,7 @@
                     ]) ?>
                 </div>
 
-                <div>
+                <div class="form-group">
                     <?= $this->Form->control('status', [
                         'label' => 'Status',
                         'type' => 'select',
@@ -423,17 +359,14 @@
                         'templates' => ['inputContainer' => '{{content}}']
                     ]) ?>
                 </div>
-
             </div>
 
-            <div class="cert-submit-row">
-                <?= $this->Form->button('Save Certificate', ['class' => 'cert-submit']) ?>
-
-                <?= $this->Html->link('Cancel', ['action' => 'view', $certificate->id], ['class' => 'cert-cancel']) ?>
+            <div class="button-row">
+                <?= $this->Form->button('Save Certificate', ['class' => 'submit-btn']) ?>
+                <?= $this->Html->link('Cancel', ['action' => 'view', $certificate->id], ['class' => 'back-btn']) ?>
             </div>
 
             <?= $this->Form->end() ?>
         </div>
-
     </div>
 </div>
